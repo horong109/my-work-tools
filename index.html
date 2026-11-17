@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101425">
+  <meta name="description" content="AI Compass: 목적과 사용 수준에 맞는 AI 도구를 찾고 바로 쓸 수 있는 프롬프트를 만들어 보세요.">
+  <title>AI Compass | 나에게 맞는 AI 활용 가이드</title>
+  <style>
+    :root{--bg:#0c1020;--bg2:#121a30;--surface:#171f35;--line:rgba(201,217,253,.13);--text:#eef3ff;--muted:#a0aec8;--mint:#71f1cf;--lavender:#b6a4ff;--blue:#74adff;--shadow:0 23px 75px rgba(0,0,0,.22)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-width:320px;font-family:Pretendard,"Apple SD Gothic Neo","Malgun Gothic",system-ui,-apple-system,sans-serif;color:var(--text);background:radial-gradient(ellipse 700px 510px at 77% 9%,rgba(112,92,218,.19),transparent 72%),radial-gradient(ellipse 550px 520px at 11% 27%,rgba(35,181,162,.11),transparent 74%),var(--bg);line-height:1.55}
+    a{color:inherit;text-decoration:none}
+    button,input,textarea{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+    .container{width:min(1130px,calc(100% - 44px));margin:auto}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:78px}
+    .logo{display:inline-flex;align-items:center;gap:10px;font-size:18px;font-weight:850;letter-spacing:-.5px}
+    .logo-symbol{display:grid;place-items:center;width:37px;height:37px;background:linear-gradient(145deg,var(--mint),var(--lavender));color:#111b2d;border-radius:12px;font-size:24px;box-shadow:0 0 24px rgba(113,241,207,.18)}
+    .navlinks{display:flex;gap:27px;align-items:center;font-size:13px;font-weight:700;color:#bbc8df}
+    .navlinks a:hover{color:var(--mint)}
+    .header-badge{font-size:11px;border:1px solid var(--line);padding:7px 11px;border-radius:99px;color:#a9b9d5;white-space:nowrap}
+    .hero{padding:71px 0 64px;display:grid;grid-template-columns:1fr .85fr;align-items:center;gap:55px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--mint);font-weight:800;letter-spacing:2.1px;font-size:11px;text-transform:uppercase}
+    .pulse{width:7px;height:7px;background:var(--mint);border-radius:100%;box-shadow:0 0 0 5px rgba(113,241,207,.12)}
+    h1{font-size:clamp(39px,5vw,64px);letter-spacing:-2.8px;line-height:1.19;margin:19px 0 22px;font-weight:900}
+    h1 .em{background:linear-gradient(105deg,var(--mint),#c1b2ff);color:transparent;background-clip:text;-webkit-background-clip:text}
+    .lead{font-size:16px;line-height:1.9;color:#aebbda;max-width:520px;word-break:keep-all}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+    .btn{border:0;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:800;padding:13px 20px;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(105deg,var(--mint),#9deec8);color:#10251e;box-shadow:0 9px 28px rgba(113,241,207,.14)}
+    .btn-outline{background:rgba(255,255,255,.045);border:1px solid var(--line);color:#e8ecff}
+    .btn-ghost{background:transparent;border:1px solid var(--line);color:#c9d3ea}
+    .mini-stats{display:flex;gap:27px;margin-top:38px;align-items:center}
+    .mini-stats span{display:block;font-size:11px;color:#879ab9}
+    .mini-stats strong{font-size:23px;letter-spacing:-.5px}
+    .stat-separator{width:1px;height:31px;background:var(--line)}
+    .hero-preview{position:relative;padding:28px 0 28px 17px}
+    .hero-preview::before{content:"";position:absolute;inset:0 0 0 32px;border-radius:33px;background:linear-gradient(150deg,rgba(110,85,198,.23),rgba(30,148,145,.08));transform:rotate(-5deg);border:1px solid rgba(174,156,247,.18)}
+    .mock{position:relative;border:1px solid rgba(218,224,255,.2);padding:24px;border-radius:24px;background:rgba(23,31,52,.92);box-shadow:var(--shadow);backdrop-filter:blur(15px)}
+    .mock-head{display:flex;justify-content:space-between;align-items:center;gap:15px}
+    .dots{display:flex;gap:5px}.dots i{width:7px;height:7px;border-radius:50%;background:#7c87a4}.dots i:first-child{background:#8d78fa}.dots i:nth-child(2){background:#5dbee3}
+    .mock-kicker{color:#a5b2c9;font-size:11px;font-weight:700;letter-spacing:1px}
+    .mock h3{font-size:19px;margin:23px 0 13px;letter-spacing:-.6px}
+    .mock p{font-size:12px;color:#aab8d3;margin-top:0}
+    .mock-pills{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 23px}
+    .mock-pill{font-size:11px;font-weight:700;border:1px solid rgba(170,192,236,.18);border-radius:8px;padding:8px 11px;color:#c5cfe3}
+    .mock-pill.on{color:var(--mint);background:rgba(113,241,207,.09);border-color:rgba(113,241,207,.28)}
+    .mock-line{height:1px;background:var(--line);margin:18px 0}
+    .mock-result{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:13px;margin-top:9px}
+    .mock-icon{width:35px;height:35px;display:grid;place-items:center;border-radius:10px;background:#e8fff5;color:#143a32;font-weight:900}
+    .mock-icon.purple{background:#e8e5ff;color:#5242ac}
+    .mock-result b{font-size:13px}.mock-result small{font-size:10px;color:#91a3c3;display:block}
+    .mock-right{margin-left:auto;color:var(--mint);font-size:13px;font-weight:800}
+    .floating-note{position:absolute;right:-25px;bottom:-8px;background:#e7fbf6;color:#184137;font-size:12px;font-weight:850;padding:13px 17px;border-radius:14px;box-shadow:0 16px 30px #0004;transform:rotate(5deg)}
+    .section{padding:58px 0}
+    .section-heading{margin-bottom:27px}
+    .section-kicker{display:block;font-size:11px;letter-spacing:2px;font-weight:900;color:var(--mint);margin-bottom:8px;text-transform:uppercase}
+    h2{font-size:clamp(27px,3vw,38px);letter-spacing:-1.4px;margin:0 0 9px;line-height:1.3}
+    .section-desc{color:var(--muted);font-size:14px;margin:0}
+    .workspace{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:23px;align-items:start}
+    .panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(26,35,58,.95),rgba(20,27,45,.94));border-radius:22px;padding:26px;box-shadow:0 8px 35px rgba(0,0,0,.10)}
+    .form-step{margin-bottom:28px}
+    .stephead{display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap}
+    .step-no{display:grid;place-items:center;background:rgba(113,241,207,.13);border:1px solid rgba(113,241,207,.2);color:var(--mint);width:26px;height:26px;border-radius:9px;font-size:11px;font-weight:900}
+    .stephead h3{font-size:15px;letter-spacing:-.4px;margin:0}
+    .stephint{margin-left:auto;font-size:11px;color:#8092b1}
+    .task-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+    .choice{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:12px;min-height:93px;text-align:left;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:12px;color:#d5def1;transition:background .15s,border-color .15s,transform .15s}
+    .choice:hover{border-color:rgba(113,241,207,.4);transform:translateY(-1px)}
+    .choice[aria-pressed="true"]{border-color:var(--mint);background:rgba(113,241,207,.10);box-shadow:inset 0 0 0 1px rgba(113,241,207,.1)}
+    .choice .emoji{font-size:21px}.choice .choice-name{font-size:12px;font-weight:800;letter-spacing:-.2px}
+    .segmented{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .segmented.priority{grid-template-columns:repeat(2,1fr)}
+    .segment{border:1px solid var(--line);background:rgba(255,255,255,.025);color:#adbbd5;border-radius:10px;padding:11px 8px;font-size:12px;font-weight:750;transition:.15s}
+    .segment[aria-pressed="true"]{background:rgba(182,164,255,.15);border-color:rgba(182,164,255,.72);color:#e6dbff}
+    .text-label{color:#a5b4cf;font-size:12px;display:block;margin:0 0 9px}
+    .goal-input{width:100%;height:47px;border:1px solid var(--line);border-radius:11px;background:#10182b;color:#f4f7ff;padding:0 14px;font-size:13px;outline:none}
+    .goal-input:focus{border-color:var(--mint)}
+    .goal-input::placeholder{color:#687b9b}
+    .form-footer{border-top:1px solid var(--line);padding-top:22px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .form-footer .btn-primary{flex:1;min-width:190px}
+    .form-footer .btn-ghost{padding:12px 14px}
+    .micro-note{font-size:11px;color:#899bb7;line-height:1.7;margin:15px 0 0}
+    .result-panel{position:sticky;top:18px;min-height:520px}
+    .result-idle{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;min-height:460px}
+    .idle-art{width:104px;height:104px;border-radius:33px;display:grid;place-items:center;font-size:46px;background:radial-gradient(circle at 30% 30%,rgba(113,241,207,.23),rgba(182,164,255,.15));border:1px solid rgba(204,214,255,.13);margin-bottom:10px}
+    .result-idle h3{font-size:20px;margin:0}.result-idle p{max-width:250px;margin:0;color:var(--muted);font-size:13px;line-height:1.8}
+    .tiny-orbit{display:flex;gap:6px;margin-top:13px}.tiny-orbit span{background:#364260;width:7px;height:7px;border-radius:50%}.tiny-orbit span:first-child{background:var(--mint)}
+    .results-header{display:flex;align-items:center;gap:10px;justify-content:space-between;margin-bottom:7px}
+    .results-header h3{font-size:18px;letter-spacing:-.4px;margin:0}.pill{border:1px solid rgba(113,241,207,.24);color:var(--mint);border-radius:99px;font-size:10px;font-weight:800;padding:5px 8px;background:rgba(113,241,207,.08)}
+    .result-summary{font-size:12px;color:var(--muted);margin:0 0 19px}
+    .tool-card{border:1px solid var(--line);background:#121a2d;border-radius:15px;padding:17px;margin-bottom:10px;position:relative}
+    .tool-card.top{border-color:rgba(113,241,207,.6);background:linear-gradient(130deg,rgba(39,80,81,.25),#121a2d 75%)}
+    .tool-top{display:flex;gap:12px;align-items:center}
+    .tool-icon{width:44px;height:44px;flex:none;display:grid;place-items:center;color:#fff;font-size:15px;font-weight:900;border-radius:12px}
+    .tool-name{font-weight:850;font-size:15px;letter-spacing:-.3px}.tool-category{font-size:11px;color:#8c9fbd}
+    .tool-rank{margin-left:auto;font-size:10px;font-weight:900;color:var(--mint);white-space:nowrap}
+    .tool-desc{font-size:12px;color:#bac9e2;line-height:1.7;margin:11px 0}
+    .tool-note{font-size:11px;color:#91a9c9;border-left:2px solid #536e9b;padding-left:9px;line-height:1.6;margin:8px 0 12px}
+    .tool-actions{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .tool-link{color:var(--mint);font-size:12px;font-weight:800}
+    .tool-link:hover{text-decoration:underline}
+    .tool-tip{font-size:10px;color:#8d9cb8}
+    .subnote{padding:11px 12px;background:rgba(255,255,255,.03);font-size:10px;color:#8193b1;border-radius:9px;line-height:1.65;margin-top:14px}
+    .below-layout{display:grid;grid-template-columns:1fr .90fr;gap:23px;align-items:start}
+    .prompt-box{border-radius:21px;background:linear-gradient(140deg,rgba(39,49,81,.88),rgba(21,29,47,.96));border:1px solid var(--line);padding:25px}
+    .prompt-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.prompt-bar h3{margin:0;font-size:18px;letter-spacing:-.5px}
+    .prompt-bar span{font-size:11px;color:#9aabca}
+    .prompt-content{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75;background:#0b1324;border:1px solid #29344e;color:#dce7ff;padding:19px;border-radius:13px;min-height:264px;max-height:390px;overflow:auto;font-size:12px}
+    .prompt-actions{display:flex;gap:9px;align-items:center;justify-content:space-between;margin-top:14px;flex-wrap:wrap}
+    .prompt-actions .btn{font-size:12px;padding:11px 16px}
+    .prompt-footnote{font-size:11px;color:#8c9eba}
+    .how-card{padding:25px;border-radius:21px;background:rgba(21,28,47,.9);border:1px solid var(--line)}
+    .how-card h3{margin:0 0 16px;font-size:18px;letter-spacing:-.4px}
+    .process{display:flex;flex-direction:column;gap:13px}
+    .process-item{display:flex;align-items:start;gap:12px}
+    .process-number{display:grid;place-items:center;width:29px;height:29px;flex:none;background:rgba(182,164,255,.16);color:#c4b7ff;border-radius:10px;font-size:12px;font-weight:900}
+    .process-name{font-size:13px;font-weight:850}.process-text{color:#92a2bf;font-size:11px;margin-top:2px;line-height:1.6}
+    .rule-tip{background:rgba(113,241,207,.055);border:1px solid rgba(113,241,207,.16);padding:14px;margin-top:20px;border-radius:12px;color:#c1e4dc;font-size:11px;line-height:1.9}
+    .guide-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+    .guide-card{padding:21px;background:rgba(26,35,57,.73);border:1px solid var(--line);border-radius:17px}
+    .guide-card .guide-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:rgba(113,241,207,.09);font-size:21px;margin-bottom:16px}
+    .guide-card h3{margin:0 0 8px;font-size:15px}.guide-card p{margin:0;font-size:12px;color:#a0aec9;line-height:1.8;word-break:keep-all}
+    .guide-card em{color:var(--mint);font-style:normal}
+    .closing{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(110deg,rgba(113,241,207,.13),rgba(182,164,255,.16));border:1px solid rgba(166,198,228,.21);border-radius:23px;padding:27px 33px;margin:25px 0 69px}
+    .closing h2{font-size:24px;margin:0 0 7px}.closing p{font-size:12px;color:#aebeda;margin:0}
+    footer{border-top:1px solid var(--line);padding:23px 0 33px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:11px;color:#8395b4}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#e5fff5;color:#123e33;padding:12px 20px;border-radius:11px;box-shadow:0 12px 36px #0005;font-size:13px;font-weight:800;z-index:20;transition:.2s}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    [hidden]{display:none!important}
+    @media(max-width:950px){.hero{gap:25px}.floating-note{right:-8px}.workspace{grid-template-columns:1fr 1fr}.panel{padding:20px}.guide-grid{grid-template-columns:repeat(2,1fr)}.task-grid{grid-template-columns:repeat(2,1fr)}.choice{min-height:81px}}
+    @media(max-width:720px){.container{width:min(100% - 30px,530px)}.topbar{min-height:69px}.navlinks{display:none}.hero{padding:37px 0 39px;grid-template-columns:1fr;gap:24px}.hero-preview{max-width:460px;margin:auto;width:100%;padding-right:12px}.hero-preview::before{right:18px}.floating-note{right:0;bottom:2px}.lead{font-size:14px}.mini-stats{margin-top:25px}.section{padding:34px 0}.workspace,.below-layout{grid-template-columns:1fr}.result-panel{position:static;min-height:unset}.result-idle{min-height:245px}.guide-grid{gap:10px}.guide-card{padding:17px}.closing{padding:24px;flex-direction:column;align-items:start}.closing h2{font-size:21px}footer{flex-direction:column;align-items:start}h1{letter-spacing:-1.8px}}
+    @media(max-width:400px){.task-grid{grid-template-columns:repeat(2,1fr)}.segmented{gap:5px}.segment{font-size:11px}.choice{padding:11px 9px}.mini-stats{gap:16px}.header-badge{font-size:10px}.mock{padding:19px}.guide-grid{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.choice,.toast{transition:none}}
+  </style>
+</head>
+<body>
+  <header class="container topbar">
+    <a href="#top" class="logo" aria-label="AI Compass 첫 화면"><span class="logo-symbol" aria-hidden="true">✳</span> AI Compass</a>
+    <nav class="navlinks" aria-label="페이지 메뉴"><a href="#finder">맞춤 추천</a><a href="#prompt-section">프롬프트 만들기</a><a href="#guide">활용 가이드</a></nav>
+    <span class="header-badge">THAMS · 바이브 코딩 실습</span>
+  </header>
+  <main id="top">
+    <section class="container hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow"><span class="pulse" aria-hidden="true"></span> FIND YOUR AI WORKFLOW</div>
+        <h1 id="hero-title">AI를 쓰는 것보다,<br><span class="em">잘 쓰는 방법.</span></h1>
+        <p class="lead">AI 도구는 많지만, 언제 무엇을 어떻게 사용해야 할까요?<br>목적과 숙련도를 선택하면 <strong style="color:#ecf6ff">나에게 맞는 도구와 시작 방법</strong>을 알려드려요.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#finder">내 AI 도구 찾기 <span aria-hidden="true">↗</span></a><a class="btn btn-outline" href="#guide">활용 팁 살펴보기 <span aria-hidden="true">↓</span></a></div>
+        <div class="mini-stats" aria-label="서비스 특징"><div><strong>6</strong><span>활용 목적</span></div><div class="stat-separator" aria-hidden="true"></div><div><strong>8</strong><span>AI 도구</span></div><div class="stat-separator" aria-hidden="true"></div><div><strong>1분</strong><span>간단 진단</span></div></div>
+      </div>
+      <div class="hero-preview" aria-hidden="true">
+        <div class="mock">
+          <div class="mock-head"><span class="mock-kicker">SMART AI MATCH</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <h3>무슨 일을 하고 싶나요?</h3><p>상황을 선택하면 알맞은 AI를 추천해 드려요.</p>
+          <div class="mock-pills"><span class="mock-pill">✍ 글쓰기</span><span class="mock-pill on">⌘ 코딩</span><span class="mock-pill">◫ 발표자료</span><span class="mock-pill">⌕ 조사·검색</span></div>
+          <div class="mock-line"></div><span class="mock-kicker">RECOMMENDED TOOLS</span>
+          <div class="mock-result"><span class="mock-icon">C</span><div><b>ChatGPT</b><small>아이디어 · 오류 이해</small></div><span class="mock-right">추천 ✓</span></div>
+          <div class="mock-result"><span class="mock-icon purple">&lt;/&gt;</span><div><b>Cursor</b><small>코드 작성 · 수정</small></div><span class="mock-right">추천 ✓</span></div>
+        </div>
+        <div class="floating-note">✦ 질문까지 만들어 드려요!</div>
+      </div>
+    </section>
+
+    <section id="finder" class="section container" aria-labelledby="finder-title">
+      <div class="section-heading"><span class="section-kicker">01 / PERSONALIZED FINDER</span><h2 id="finder-title">나에게 맞는 AI 찾기</h2><p class="section-desc">3가지 조건을 선택하면 도구 3개와 추천 이유를 확인할 수 있어요.</p></div>
+      <div class="workspace">
+        <div class="panel" id="form-panel">
+          <div class="form-step"><div class="stephead"><span class="step-no">01</span><h3>어떤 일을 하고 싶나요?</h3><span class="stephint">하나 선택</span></div>
+            <div class="task-grid" id="task-options" role="group" aria-label="활용 목적">
+              <button class="choice" type="button" data-value="writing" aria-pressed="true"><span class="emoji" aria-hidden="true">✍️</span><span class="choice-name">글쓰기 · 과제</span></button>
+              <button class="choice" type="button" data-value="coding" aria-pressed="false"><span class="emoji" aria-hidden="true">💻</span><span class="choice-name">코딩 · 개발</span></button>
+              <button class="choice" type="button" data-value="slides" aria-pressed="false"><span class="emoji" aria-hidden="true">🎨</span><span class="choice-name">발표 · 디자인</span></button>
+              <button class="choice" type="button" data-value="research" aria-pressed="false"><span class="emoji" aria-hidden="true">🔍</span><span class="choice-name">자료 조사</span></button>
+              <button class="choice" type="button" data-value="study" aria-pressed="false"><span class="emoji" aria-hidden="true">📚</span><span class="choice-name">공부 · 요약</span></button>
+              <button class="choice" type="button" data-value="ideas" aria-pressed="false"><span class="emoji" aria-hidden="true">💡</span><span class="choice-name">아이디어 기획</span></button>
+            </div>
+          </div>
+          <div class="form-step"><div class="stephead"><span class="step-no">02</span><h3>AI 사용 경험은 어느 정도인가요?</h3></div>
+            <div class="segmented" id="level-options" role="group" aria-label="AI 사용 경험">
+              <button class="segment" type="button" data-value="beginner" aria-pressed="true">🌱 처음이에요</button>
+              <button class="segment" type="button" data-value="regular" aria-pressed="false">⚡ 가끔 써요</button>
+              <button class="segment" type="button" data-value="advanced" aria-pressed="false">🚀 자주 써요</button>
+            </div>
+          </div>
+          <div class="form-step"><div class="stephead"><span class="step-no">03</span><h3>가장 중요하게 생각하는 것은?</h3></div>
+            <div class="segmented priority" id="focus-options" role="group" aria-label="중요한 기준">
+              <button class="segment" type="button" data-value="easy" aria-pressed="true">👋 쉬운 사용</button>
+              <button class="segment" type="button" data-value="evidence" aria-pressed="false">✅ 근거 확인</button>
+              <button class="segment" type="button" data-value="speed" aria-pressed="false">⏱ 빠른 제작</button>
+              <button class="segment" type="button" data-value="depth" aria-pressed="false">🧩 심화 작업</button>
+            </div>
+          </div>
+          <div class="form-step"><label for="goal" class="text-label">어떤 결과를 만들고 싶은지 적어 주세요 <span style="color:#6e81a1">(선택)</span></label><input id="goal" class="goal-input" maxlength="140" placeholder="예: 학교 축제 소개 웹사이트 만들기" autocomplete="off"></div>
+          <div class="form-footer"><button id="recommend" class="btn btn-primary" type="button">내 맞춤 AI 추천받기 <span aria-hidden="true">↗</span></button><button id="reset" class="btn btn-ghost" type="button" title="선택 초기화">초기화 ↺</button></div>
+          <p class="micro-note">🔒 선택한 내용은 이 브라우저 안에서만 처리됩니다. AI에 질문하거나 외부 서버에 입력 내용을 전송하지 않습니다.</p>
+        </div>
+        <aside class="panel result-panel" id="results" aria-live="polite" aria-label="추천 결과">
+          <div class="result-idle" id="result-idle"><div class="idle-art" aria-hidden="true">🧭</div><h3>당신의 AI 조합을 찾아볼까요?</h3><p>왼쪽에서 목적과 사용 경험을 선택한 후 <b style="color:#dfeaff">맞춤 추천받기</b> 버튼을 눌러 주세요.</p><div class="tiny-orbit" aria-hidden="true"><span></span><span></span><span></span></div></div>
+          <div id="result-filled" hidden><div class="results-header"><h3>추천 AI 도구 TOP 3</h3><span class="pill">분석 완료 ✓</span></div><p class="result-summary" id="result-summary"></p><div id="result-cards"></div><div class="subnote">추천 순위는 수업용 규칙 기반 점수로 계산한 참고 결과입니다. AI 모델을 실행하거나 모든 서비스의 실제 성능을 비교한 것은 아닙니다.</div></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="prompt-section" class="section container" aria-labelledby="prompt-title">
+      <div class="section-heading"><span class="section-kicker">02 / ACTION PLAN</span><h2 id="prompt-title">추천에서 끝나지 않도록</h2><p class="section-desc">도구를 선택했다면, 이렇게 질문하고 조합해 보세요.</p></div>
+      <div class="below-layout">
+        <div class="prompt-box"><div class="prompt-bar"><h3>✦ 맞춤 프롬프트 생성기</h3><span>복사해서 바로 사용</span></div><div id="prompt-content" class="prompt-content" aria-live="polite">왼쪽에서 조건을 선택한 뒤 ‘내 맞춤 AI 추천받기’를 누르면, 상황에 맞춘 프롬프트가 이곳에 만들어집니다.</div><div class="prompt-actions"><button id="copy-prompt" class="btn btn-primary" type="button" disabled>📋 프롬프트 복사</button><span class="prompt-footnote">개인정보·비밀번호는 입력하지 마세요.</span></div></div>
+        <div class="how-card"><h3>🔗 AI를 조합하면 더 좋아요</h3><div class="process" id="process"><div class="process-item"><span class="process-number">1</span><div><div class="process-name">주제와 목표 정하기</div><div class="process-text">먼저 하고 싶은 일을 구체적으로 정리해 보세요.</div></div></div><div class="process-item"><span class="process-number">2</span><div><div class="process-name">적합한 AI 도구 선택</div><div class="process-text">작업 목적에 따라 도구를 나누어 활용해 보세요.</div></div></div><div class="process-item"><span class="process-number">3</span><div><div class="process-name">직접 검토하고 수정하기</div><div class="process-text">AI가 만든 결과를 확인한 뒤 완성해 보세요.</div></div></div></div><div class="rule-tip">💬 <strong>핵심:</strong> AI를 무조건 많이 사용하는 것보다, <strong>각 AI의 강점에 맞게 역할을 나누는 것</strong>이 중요해요.</div></div>
+      </div>
+    </section>
+
+    <section id="guide" class="section container" aria-labelledby="guide-title">
+      <div class="section-heading"><span class="section-kicker">03 / BETTER PROMPTING</span><h2 id="guide-title">AI 답변을 바꾸는 4가지 질문법</h2><p class="section-desc">“알아서 해줘”보다 조건을 분명하게 알려주는 것이 더 유용할 수 있어요.</p></div>
+      <div class="guide-grid">
+        <article class="guide-card"><div class="guide-icon" aria-hidden="true">🎯</div><h3>1. 역할 알려주기</h3><p>“너는 <em>대학생 글쓰기 코치</em>야.”처럼 어떤 관점에서 도와줄지 지정하세요.</p></article>
+        <article class="guide-card"><div class="guide-icon" aria-hidden="true">🗂️</div><h3>2. 상황 설명하기</h3><p>대상, 목적, 수업 조건 등 <em>배경정보</em>를 구체적으로 전달하세요.</p></article>
+        <article class="guide-card"><div class="guide-icon" aria-hidden="true">🧱</div><h3>3. 출력 형식 정하기</h3><p>“<em>표 3행</em>”, “<em>5단계 순서</em>”처럼 원하는 결과 형태를 정하세요.</p></article>
+        <article class="guide-card"><div class="guide-icon" aria-hidden="true">🔎</div><h3>4. 검증 요청하기</h3><p>“틀릴 수 있는 부분을 표시하고 <em>확인 방법</em>을 알려줘”라고 요청하세요.</p></article>
+      </div>
+    </section>
+    <section class="container closing"><div><h2>어떤 AI가 좋을지 고민된다면?</h2><p>복잡하게 시작하지 않아도 괜찮아요. 목적을 먼저 정하고 하나씩 경험해 보세요.</p></div><a class="btn btn-primary" href="#finder">다시 추천받기 ↑</a></section>
+  </main>
+  <footer class="container"><div>✳ <strong style="color:#c6d4ed">AI Compass</strong> · THAMS 창의융합 바이브 코딩 실습</div><div>서비스 기능·요금 및 이용 가능 범위는 변경될 수 있습니다. 공식 사이트에서 확인하세요.</div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    'use strict';
+    const tasks = {
+      writing:{name:'글쓰기 · 과제',role:'대학생의 글쓰기와 과제 작성을 돕는 친절한 코치',task:'주제에 맞는 글의 개요를 만들고 자연스러운 초안을 작성하는 방법을 알려줘.',format:'제목 후보 3개, 서론·본론·결론 개요, 초안 예시, 스스로 점검할 체크리스트',tips:'제출 조건과 자신의 생각을 먼저 제공하고, AI 문장을 그대로 제출하지 말고 직접 수정해 줘.',flow:[['ChatGPT','주제 정리와 구성 잡기'],['Claude','문장 흐름과 논리 검토'],['Perplexity','필요한 사실과 출처 확인']]},
+      coding:{name:'코딩 · 개발',role:'사용자 수준에 맞춰 설명하는 소프트웨어 개발 멘토',task:'기능을 나눠서 구현 순서를 설계하고, 필요한 코드를 이해하기 쉽게 예시로 보여줘.',format:'필수 기능 목록, 개발 순서, 작동하는 작은 코드 예시, 오류 점검 체크리스트',tips:'사용 언어와 오류 메시지를 함께 적고, 생성된 코드는 직접 실행해 검증해 줘.',flow:[['ChatGPT','요구사항 정리 및 기초 코드'],['Cursor','프로젝트 코드 구현과 수정'],['Claude','코드 검토 및 개선 아이디어']]},
+      slides:{name:'발표 · 디자인',role:'발표 자료 구성과 시각 디자인을 돕는 코치',task:'발표 목적과 청중을 고려해 슬라이드 구성을 제안하고 발표 흐름을 만들어 줘.',format:'한 줄 메시지, 슬라이드별 제목과 핵심 문장, 적합한 시각자료 아이디어, 발표 팁',tips:'실제 발표 시간, 청중, 발표자 수를 알려주고 디자인보다 내용의 정확성을 먼저 확인해 줘.',flow:[['ChatGPT','발표 논리와 슬라이드 개요'],['Gamma','슬라이드 초안 제작'],['Canva','시각 디자인 다듬기']]},
+      research:{name:'자료 조사',role:'사실 확인을 중시하는 조사·리서치 가이드',task:'질문의 핵심을 나누고 확인 가능한 자료를 찾는 검색 전략과 검증 기준을 알려줘.',format:'핵심 질문 3개, 검색 키워드, 확인해야 할 신뢰 가능한 출처 유형, 검증 체크리스트',tips:'날짜와 원문 출처를 확인하고, 찾지 못한 정보는 사실처럼 단정하지 말아 줘.',flow:[['Perplexity','웹에서 출처 후보 찾기'],['NotebookLM','모은 자료 비교·정리'],['ChatGPT','확인한 사실로 글 구성']]},
+      study:{name:'공부 · 요약',role:'정답만 주기보다 이해를 도와주는 개인 공부 코치',task:'학습 내용을 쉬운 설명과 예제로 나누고, 확인 문제를 만들어 줘.',format:'핵심 개념 5개, 쉬운 예시, 자주 하는 실수, 연습문제 3개와 해설',tips:'교재나 수업 자료를 기준으로 학습하고, 모르는 부분은 단계별 힌트를 요청해 줘.',flow:[['NotebookLM','교재·강의 자료 기반 정리'],['ChatGPT','단계별 설명과 문제 풀이'],['Gemini','다른 예시로 복습']]},
+      ideas:{name:'아이디어 기획',role:'아이디어를 넓히고 현실성을 검토하는 기획 파트너',task:'문제 상황에서 출발해 서로 다른 해결 아이디어를 만들고 장단점을 비교해 줘.',format:'해결하고 싶은 문제 정의, 아이디어 5개, 평가표, 가장 현실적인 실행 첫 단계',tips:'아이디어가 좋은 이유뿐 아니라 실패 가능성과 필요한 자원도 함께 점검해 줘.',flow:[['ChatGPT','발산적으로 아이디어 모으기'],['Claude','실현 가능성과 약점 검토'],['Canva','아이디어 시각화']]}
+    };
+    const tools = [
+      {id:'chatgpt',name:'ChatGPT',category:'범용 AI 대화 도우미',initial:'✳',color:'#137d72',url:'https://chatgpt.com/',scores:[5,4,3,4,5,5],criteria:{easy:5,evidence:3,speed:4,depth:4},levels:[5,4,3],desc:'아이디어 정리, 글쓰기, 개념 설명, 코딩 질문까지 폭넓게 활용할 수 있어요.',strengths:{writing:'글의 구조와 초안을 여러 번 수정하며 발전시키기 좋아요.',coding:'요구사항을 정리하고 코드의 동작 원리를 이해하는 데 도움이 돼요.',slides:'발표 목적에 맞는 목차와 발표문 초안을 설계하기 좋아요.',research:'확인한 자료를 요약·정리하고 보고서 구조를 잡는 데 활용해요.',study:'개념을 쉬운 단계로 풀고 연습문제를 만드는 데 유용해요.',ideas:'다양한 관점의 아이디어를 빠르게 확장하기 좋아요.'}},
+      {id:'claude',name:'Claude',category:'글쓰기 · 분석 · 코딩',initial:'C',color:'#a56d52',url:'https://claude.ai/',scores:[5,5,2,3,4,5],criteria:{easy:3,evidence:3,speed:4,depth:5},levels:[3,4,5],desc:'긴 글의 논리를 점검하거나 복잡한 문제·코드를 차근차근 다루고 싶을 때 유용해요.',strengths:{writing:'문장 흐름과 주장 간 연결을 검토하는 데 활용할 수 있어요.',coding:'코드의 구조와 변경 사항을 분석·개선하는 데 도움을 줘요.',slides:'발표 메시지의 흐름과 근거를 다듬는 데 활용할 수 있어요.',research:'자료를 읽고 쟁점을 정리할 때 유용해요.',study:'복잡한 개념을 깊이 있게 질문하며 학습할 수 있어요.',ideas:'아이디어의 약점과 대안까지 검토할 수 있어요.'}},
+      {id:'gemini',name:'Gemini',category:'범용 AI 도우미',initial:'✦',color:'#4369af',url:'https://gemini.google.com/',scores:[4,3,4,4,4,4],criteria:{easy:4,evidence:3,speed:4,depth:3},levels:[4,4,3],desc:'글쓰기, 학습, 아이디어 구성 등 다양한 일상 작업을 도와주는 AI예요.',strengths:{writing:'다른 시각의 초안과 표현을 비교해 볼 수 있어요.',coding:'기초 코드 설명과 개발 아이디어를 얻는 데 유용해요.',slides:'발표 아이디어와 시각적 구성 방향을 생각하는 데 활용해요.',research:'조사 계획을 세우고 질문을 정리하는 데 활용해요.',study:'같은 개념을 다른 예시로 설명받으며 복습하기 좋아요.',ideas:'아이디어를 다양한 방향으로 넓히는 데 도움이 돼요.'}},
+      {id:'perplexity',name:'Perplexity',category:'출처 기반 AI 검색',initial:'P',color:'#167e91',url:'https://www.perplexity.ai/',scores:[2,1,1,5,3,3],criteria:{easy:4,evidence:5,speed:4,depth:4},levels:[4,4,4],desc:'웹 검색 결과와 출처를 함께 살펴보며 자료를 조사할 때 유용해요.',strengths:{writing:'글에 필요한 사실과 근거 자료를 찾아 검토할 수 있어요.',coding:'라이브러리 문서나 기술 정보의 출처 후보를 찾는 데 활용해요.',slides:'발표에 필요한 참고자료와 수치의 출처를 살필 수 있어요.',research:'자료 출처를 찾아 원문을 확인하며 조사하기에 적합해요.',study:'모르는 개념의 설명과 참고 자료를 찾아볼 수 있어요.',ideas:'비슷한 사례나 현재 동향을 조사할 때 도움이 돼요.'}},
+      {id:'notebooklm',name:'NotebookLM',category:'내 자료 기반 학습·정리',initial:'N',color:'#4770b8',url:'https://notebooklm.google.com/',scores:[4,1,2,5,5,2],criteria:{easy:3,evidence:5,speed:3,depth:5},levels:[3,4,4],desc:'내가 넣은 PDF·문서 등 자료를 중심으로 내용을 정리하고 질문할 수 있어요.',strengths:{writing:'수집한 참고 자료를 바탕으로 핵심 논점을 정리하기 좋아요.',coding:'업로드한 문서나 참고자료를 이해하는 보조 도구로 쓸 수 있어요.',slides:'제공한 자료를 기반으로 발표 핵심 내용과 근거를 정리할 수 있어요.',research:'모은 문서를 서로 비교하고 인용 위치를 추적하기 좋아요.',study:'수업 자료와 교재를 바탕으로 학습·요약하기에 적합해요.',ideas:'모아 둔 자료에서 문제나 기획의 단서를 발견할 수 있어요.'}},
+      {id:'cursor',name:'Cursor',category:'AI 코드 에디터',initial:'⌘',color:'#484e6d',url:'https://cursor.com/',scores:[1,5,1,1,1,2],criteria:{easy:1,evidence:2,speed:5,depth:5},levels:[1,3,5],desc:'코드 편집 환경 안에서 파일을 읽고 수정하며 개발 작업을 진행하기 좋아요.',strengths:{writing:'일반 글쓰기보다 실제 소프트웨어 개발에 특화돼 있어요.',coding:'프로젝트 파일을 다루며 코드를 작성·수정할 때 특히 유용해요.',slides:'웹 기반 발표 페이지를 코딩으로 구현할 때 쓸 수 있어요.',research:'개발 프로젝트에 필요한 코드 분석이 중심인 도구예요.',study:'직접 코딩하고 수정하면서 프로그래밍을 연습할 수 있어요.',ideas:'아이디어를 간단한 프로토타입으로 만들어 볼 때 좋아요.'}},
+      {id:'canva',name:'Canva',category:'디자인 · 발표 제작',initial:'Ca',color:'#9c48b2',url:'https://www.canva.com/',scores:[3,1,5,1,2,4],criteria:{easy:5,evidence:1,speed:5,depth:2},levels:[5,4,3],desc:'템플릿과 AI 디자인 기능을 활용해 발표자료나 시각 콘텐츠를 제작하기 좋아요.',strengths:{writing:'작성한 문장을 카드뉴스 같은 시각 콘텐츠로 바꿀 수 있어요.',coding:'코딩보다 디자인 제작에 더 적합한 도구예요.',slides:'슬라이드, 포스터 등 시각적 완성도를 높이기 좋아요.',research:'조사 결과를 인포그래픽으로 정리하는 데 활용해요.',study:'핵심 내용을 시각적인 학습 자료로 만들 수 있어요.',ideas:'아이디어를 포스터나 간단한 시안으로 표현하기 좋아요.'}},
+      {id:'gamma',name:'Gamma',category:'AI 발표자료 제작',initial:'G',color:'#7d61da',url:'https://gamma.app/',scores:[2,1,5,1,2,3],criteria:{easy:5,evidence:1,speed:5,depth:2},levels:[5,4,3],desc:'주제나 개요를 입력해 발표용 슬라이드 초안을 빠르게 만들어 볼 수 있어요.',strengths:{writing:'완성한 글을 발표 형식의 요약 자료로 구성할 수 있어요.',coding:'코딩보다 슬라이드 제작에 특화돼 있어요.',slides:'발표 개요를 시각적 슬라이드 초안으로 만드는 데 유용해요.',research:'조사 결과를 짧은 발표 형식으로 공유할 때 도움이 돼요.',study:'학습 내용을 요약한 발표 자료를 만들어 볼 수 있어요.',ideas:'아이디어를 소개하는 간단한 피치덱을 구성하기 좋아요.'}}
+    ];
+    const taskKeys=['writing','coding','slides','research','study','ideas'];
+    const experienceNames={beginner:'처음 사용자',regular:'가끔 사용하는 사람',advanced:'숙련 사용자'};
+    const focusNames={easy:'쉬운 사용',evidence:'근거 확인',speed:'빠른 제작',depth:'심화 작업'};
+    const focusWhy={easy:'쉽게 시작할 수 있다는 점도 고려했어요.',evidence:'자료와 결과를 검토하기 편한지도 고려했어요.',speed:'초안을 빠르게 만들 수 있는지도 고려했어요.',depth:'복잡한 작업을 깊게 다루는지도 고려했어요.'};
+    let state={task:'writing',level:'beginner',focus:'easy'};
+    let latestPrompt='';
+    let toastTimer;
+    const qs=(selector)=>document.querySelector(selector);
+    const safe=(value)=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    function updateControl(group,value){
+      const el=qs('#'+group+'-options');
+      for(const button of el.querySelectorAll('button[data-value]'))button.setAttribute('aria-pressed',String(button.dataset.value===value));
+    }
+    for(const [group,key] of [['task','task'],['level','level'],['focus','focus']]){
+      qs('#'+group+'-options').addEventListener('click',event=>{
+        const button=event.target.closest('button[data-value]');
+        if(!button)return;
+        state[key]=button.dataset.value; updateControl(group,state[key]);
+      });
+    }
+    function scoreTool(tool){
+      const base=tool.scores[taskKeys.indexOf(state.task)]*10;
+      const criterion=tool.criteria[state.focus]*3;
+      const level=tool.levels[['beginner','regular','advanced'].indexOf(state.level)]*2;
+      return base+criterion+level+(state.task==='coding'&&state.level==='advanced'&&tool.id==='cursor'?4:0);
+    }
+    function getTopTools(){return [...tools].sort((a,b)=>scoreTool(b)-scoreTool(a)||a.name.localeCompare(b.name)).slice(0,3)}
+    function makePrompt(){
+      const config=tasks[state.task];
+      const goal=qs('#goal').value.trim();
+      const goalText=goal?'내가 만들고 싶은 결과: '+goal+'\n':'아직 구체적인 주제는 정하지 않았으니, 시작할 만한 작은 예시도 추천해 줘.\n';
+      const learning=state.level==='beginner'?'낯선 용어는 쉽게 설명하고 한 번에 너무 많은 단계를 주지 마.':state.level==='regular'?'이미 알고 있는 기초 설명은 간단히 하고 실행 가능한 예시를 보여줘.':'기초 설명은 줄이고 선택지·장단점·실행 전략을 구체적으로 비교해 줘.';
+      const focus=state.focus==='easy'?'가장 먼저 따라 할 쉬운 한 단계부터 제안해 줘.':state.focus==='evidence'?'사실과 추측을 구분하고 확인이 필요한 부분에는 검증 방법을 적어 줘.':state.focus==='speed'?'우선 최소한의 작업으로 만들 수 있는 초안을 제시해 줘.':'깊이 있는 대안과 실패 가능성도 함께 검토해 줘.';
+      return `[역할]\n너는 ${config.role}야.\n\n[나의 상황]\nAI 활용 경험: ${experienceNames[state.level]}\n가장 중요한 기준: ${focusNames[state.focus]}\n${goalText}\n[요청]\n${config.task}\n${learning}\n${focus}\n\n[원하는 결과 형식]\n${config.format}\n\n[마지막 점검]\n내가 직접 확인하거나 수정해야 할 부분을 따로 표시해 줘. 확실하지 않은 내용은 사실인 것처럼 꾸미지 말고, 추가 정보가 필요하면 먼저 질문해 줘.`;
+    }
+    function showToast(text){const toast=qs('#toast');toast.textContent=text;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2800)}
+    function showRecommendations(){
+      const list=getTopTools();
+      const config=tasks[state.task];
+      qs('#result-idle').hidden=true;qs('#result-filled').hidden=false;
+      qs('#result-summary').textContent=`${config.name} · ${experienceNames[state.level]} · ${focusNames[state.focus]} 기준`;
+      qs('#result-cards').innerHTML=list.map((tool,index)=>{
+        const reason=tool.strengths[state.task]+' '+focusWhy[state.focus];
+        const note=(state.task==='coding'&&state.level==='beginner'&&tool.id==='cursor')?'에디터 사용법을 먼저 익히면 더 편리해요.':(tool.id==='notebooklm'?'직접 넣은 자료의 품질이 중요해요.':tool.id==='perplexity'?'검색 결과에 표시된 출처를 직접 열어 확인하세요.':'사용 전 무료·유료 기능과 이용 조건을 확인하세요.');
+        return `<article class="tool-card ${index===0?'top':''}"><div class="tool-top"><div class="tool-icon" style="background:${safe(tool.color)}" aria-hidden="true">${safe(tool.initial)}</div><div><div class="tool-name">${safe(tool.name)}</div><div class="tool-category">${safe(tool.category)}</div></div><div class="tool-rank">${index===0?'★ 1순위':`${index+1}순위`}</div></div><p class="tool-desc">${safe(reason)}</p><p class="tool-note">${safe(note)}</p><div class="tool-actions"><a class="tool-link" href="${safe(tool.url)}" target="_blank" rel="noopener noreferrer">공식 사이트 열기 ↗</a><span class="tool-tip">${safe(config.name)} 추천</span></div></article>`
+      }).join('');
+      qs('#prompt-content').textContent=latestPrompt=makePrompt();
+      qs('#copy-prompt').disabled=false;
+      qs('#process').innerHTML=config.flow.map(([name,description],index)=>`<div class="process-item"><span class="process-number">${index+1}</span><div><div class="process-name">${safe(name)}</div><div class="process-text">${safe(description)}</div></div></div>`).join('');
+      showToast('맞춤 추천이 완성됐어요!');
+      const target=qs('#results');
+      if(matchMedia('(max-width: 720px)').matches)target.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    qs('#recommend').addEventListener('click',showRecommendations);
+    qs('#goal').addEventListener('keydown',event=>{if(event.key==='Enter')showRecommendations()});
+    qs('#reset').addEventListener('click',()=>{
+      state={task:'writing',level:'beginner',focus:'easy'};
+      for(const key of ['task','level','focus'])updateControl(key,state[key]);
+      qs('#goal').value='';qs('#result-idle').hidden=false;qs('#result-filled').hidden=true;
+      qs('#prompt-content').textContent='왼쪽에서 조건을 선택한 뒤 ‘내 맞춤 AI 추천받기’를 누르면, 상황에 맞춘 프롬프트가 이곳에 만들어집니다.';
+      qs('#copy-prompt').disabled=true; latestPrompt='';
+      qs('#process').innerHTML='<div class="process-item"><span class="process-number">1</span><div><div class="process-name">주제와 목표 정하기</div><div class="process-text">먼저 하고 싶은 일을 구체적으로 정리해 보세요.</div></div></div><div class="process-item"><span class="process-number">2</span><div><div class="process-name">적합한 AI 도구 선택</div><div class="process-text">작업 목적에 따라 도구를 나누어 활용해 보세요.</div></div></div><div class="process-item"><span class="process-number">3</span><div><div class="process-name">직접 검토하고 수정하기</div><div class="process-text">AI가 만든 결과를 확인한 뒤 완성해 보세요.</div></div></div>';
+      showToast('선택을 초기화했어요.');
+    });
+    qs('#copy-prompt').addEventListener('click',async()=>{
+      if(!latestPrompt)return;
+      try{
+        if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(latestPrompt)}
+        else{const temp=document.createElement('textarea');temp.value=latestPrompt;temp.style.position='fixed';temp.style.opacity='0';document.body.appendChild(temp);temp.focus();temp.select();if(!document.execCommand('copy'))throw Error('copy denied');temp.remove()}
+        showToast('프롬프트가 복사됐어요!');
+      }catch(e){
+        const range=document.createRange();range.selectNodeContents(qs('#prompt-content'));const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);
+        showToast('복사 권한이 없어 내용을 선택했어요. Ctrl+C를 눌러주세요.');
+      }
+    });
+  </script>
+</body>
+</html>
